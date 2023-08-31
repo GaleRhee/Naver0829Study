@@ -30,6 +30,20 @@ public class ExamEx8 {
 		System.out.println("money : " +args[0]+"원");
 		System.out.printf("만원짜리 %d장\n천원짜리 %d장\n백원짜리 %d개\n십원짜리 %d개\n일원짜리 %d개\n",a,b,c,d,e);
 		
+		
+		
+		//파라미터에서 월급여를 읽어서(문자열) 정수 타입으로 변환한다
+		
+//		int money1 =Integer.parseInt(args[0]);
+//		System.out.println("월 급여:"+money1);
+//		System.out.println("만원짜리 "+money/10000+"장");
+//		System.out.println("천원짜리 "+(money%10000)/1000+"장");
+//		System.out.println("백원짜리 "+(money%1000)/100+"개");
+//		System.out.println("십원짜리 "+(money%100)/10+"개");
+//		System.out.println("일원짜리 "+(money%10)+"개");
+//		
+//		
+		
 	}
 
 }

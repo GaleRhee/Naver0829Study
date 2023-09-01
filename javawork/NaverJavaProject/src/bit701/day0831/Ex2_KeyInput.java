@@ -8,7 +8,7 @@ public class Ex2_KeyInput {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-		//Date 클래스를 이용햇 현재 년도를 구해보자 (jdk1.1에서 deprecate 되었지만 여전히 많이 사용함)
+		//Date 클래스를 이용해서 현재 년도를 구해보자 (jdk1.1에서 deprecate 되었지만 여전히 많이 사용함)
 		//권장: Calendar 를 권장한다고 함
 		
 		Date date=new Date();

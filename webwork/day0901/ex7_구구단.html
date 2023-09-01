@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gamja+Flower&family=Jua&family=Lobster&family=Nanum+Pen+Script&family=Permanent+Marker&family=Single+Day&display=swap" rel="stylesheet">
+    <style>
+        body*{/*body의 모든 하위 태그*/
+            font-size: 30px;
+            font-family: 'Jua';
+        }
+    </style>
 </head>
 <body>
 
@@ -13,5 +20,36 @@
         단 start가 end 보다 클 경우 두 값을 서로 바꾼 후 출력하시오
      -->
 
+     <script>
+        let start=prompt("시작단을 입력해주세요")
+        let end=prompt("끝단을 입력해주세요")
+
+        if(start>end)
+        {
+            let i=start;
+            start=end;
+            end=i;
+        }
+
+
+        /*제목*/
+        for(let dan=start;dan<=end;dan++)
+        {
+            document.write(`&nbsp;&nbsp;&nbsp;&nbsp;<b>${dan}단</b>&nbsp;&nbsp;&nbsp;`);
+        }
+        document.write("</br>");
+
+
+        /*구구단*/
+        for(let i=1;i<=9;i++){
+            for(let dan=start;dan<=end;dan++){
+                let mul=dan*i;
+                document.write(`&nbsp;<b>${dan}X${i}=${mul}&nbsp;&nbsp;&nbsp;`);
+            }
+            document.write("</br>");
+        }
+
+    </script>
+    
 </body>
 </html>

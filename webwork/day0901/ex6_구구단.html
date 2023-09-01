@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gamja+Flower&family=Jua&family=Lobster&family=Nanum+Pen+Script&family=Permanent+Marker&family=Single+Day&display=swap" rel="stylesheet">
+    <style>
+        body*{/*body의 모든 하위 태그*/
+            font-size: 30px;
+            font-family: 'Jua';
+        }
+    </style>
 </head>
 <body>
 
@@ -11,6 +18,26 @@
         구구단 숫자 2~9까지 입력을 받아서 해당 구구단을 출력하시오
         단 2~9 사이의 값이 아닐 경우 '이미지(아무거나) 출력하기'
      -->
-    
+
+ 
+    <script>
+        let answer=prompt("단을 입력해주세요")
+
+
+        if(answer<2 || answer>9){
+            document.write(`<h1 class='one'>"저런... 이거나 보세요"<h1>`)
+            document.write(`<img alt='연예인 사진' src="../연예인사진/soojee.jpg" >`)
+        }else{
+            document.write(`<h1 class='one'>"구구단 ${answer}단"<h1>`)
+            for(let i=1;i<=9;i++){
+                let mul=answer*i;
+                document.write(`<b class='two'>&nbsp;${answer}X${i}=${mul}</br></b>`)
+            }
+            
+        }
+
+    </script>
+
+
 </body>
 </html>

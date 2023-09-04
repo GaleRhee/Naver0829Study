@@ -1,4 +1,4 @@
-package bit701day0901;
+package bit701.day0901;
 
 public class Ex4_BreakContinue {
 

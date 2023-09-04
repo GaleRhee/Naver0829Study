@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gamja+Flower&family=Jua&family=Lobster&family=Nanum+Pen+Script&family=Permanent+Marker&family=Single+Day&display=swap" rel="stylesheet">
+
+    <style>
+        div#msg{
+            font-size: 15px;
+            font-family: 'Jua';
+            margin-top: 20px;
+            color: darkslateblue;
+            width: 300px;
+            border: 2px solid blueviolet;
+        }
+
+    </style>
+</head>
+<body>
+    <input type="button" value="새로운 난수 발생하기" id="btnrnd">
+    
+    <script>
+        let rnd;//난수를 구할 변수
+        //난수 버튼 이벤트
+        document.getElementById("btnrnd").onclick=function(){
+            //1~100 사이의 난수 구하기
+            rnd=parseInt(Math.random()*100)+1;
+            //console 에 출력
+            console.log(rnd);
+        }
+
+
+    </script>
+    <br><br>
+    <input type="text" id="txtmsg"> 
+    <input type="button" id="btn1" value="OK">
+    <div id="msg">메시지 출력되는 곳</div>
+
+    <script>
+        let t=document.getElementById("txtmsg");
+        let b=document.getElementById("btn1");
+        let msg=document.getElementById("msg");
+
+        b.onclick=function(){
+            let data=t.value;
+            console.log(data);
+            // let count=0;
+
+            // while(true)
+            // {
+                // msg.innerHTML+=count+":";
+
+                if(data>rnd)
+                    msg.innerHTML+="<br><b>"+data+"보다 작습니다</b>";
+                else if(data<rnd)
+                    msg.innerHTML+="<br><b>"+data+"보다 큽니다</b>";
+                else{
+                    msg.innerHTML+="<br><b>정답입니다! ("+rnd+")</b>";
+            }
+                
+            
+            t.value="";
+            t.focus();
+            
+            if(data==rnd){
+             let car1=document.getElementById("car1");
+             let i=Math.trunc(((rnd*1.5)/10)+1);
+             car1.setAttribute("src",`../mycar/mycar${i}.png`);
+             }
+            
+        }
+    </script>
+    <img alt="자동차" id="car1" src="../mycar/mycar10.png" width="300">
+
+
+</body>
+</html>

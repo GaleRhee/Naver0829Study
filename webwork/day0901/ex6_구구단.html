@@ -10,6 +10,20 @@
             font-size: 30px;
             font-family: 'Jua';
         }
+
+        h3.title{
+            color: blueviolet;
+            background-color: aquamarine;
+            width: 300px;
+            padding-left: 150px; /* 태그 안쪽 여백 */
+        }
+
+        h4.dan{
+            color: brown;
+            font-family: 'Comic sans MS';
+            margin-left: 100px; /* 태그 바깥쪽 여백 */
+        }
+
     </style>
 </head>
 <body>
@@ -20,7 +34,7 @@
      -->
 
  
-    <script>
+    <!-- <script>
         let answer=prompt("단을 입력해주세요")
 
 
@@ -34,9 +48,26 @@
                 document.write(`<b class='two'>&nbsp;${answer}X${i}=${mul}</br></b>`)
             }
             
-        }
+        } -->
 
-    </script>
+         
+         <h2>구구단 입력 받아 출력하기<h/2>
+         <script>
+            let dan=Number(prompt("출력할 구구단을 입력하세요"));
+            console.log(typeof(dan));
+            if(dan<2 || dan>9){
+                document.write("<img alt='사진' src='../mycar/mycar7.png'")
+            }else{
+                let s="<h3 class='title'>** "+dan+"단 **</h3><br>";
+                for(let i=1;i<=9;i++)
+                {
+                    s+=`<h4 class='dan'>${dan} x ${i} = ${dan*i}</h4>`;
+                } 
+                document.write(s);
+            }
+        </script>     
+
+    <!-- </script> -->
 
 
 </body>

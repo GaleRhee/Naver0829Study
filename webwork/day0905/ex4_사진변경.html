@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div.buttons{
+            margin-left: 30px;
+            margin-bottom: 20px;
+        }
+
+        div.buttons.button{
+            width: 80px;
+            height: 40px;
+        }
+
+        #photo{
+            border: 10px groove gold;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- 3개의 버튼, 점점 작게, 점점 크게, 랜덤 
+    점점 작게: 사진이 5px 씩 줄어든다 (50보다 클 경우에만)
+    점점 크게: 사진이 5px 씩 커진다 (600px 보다 작을 경우에만 변경)
+    랜덤: 1~20 사이 난수를 구한 후 해당 사진으로 변경하기
+    -->
+
+    <div id="buttons">
+        <button type="button" id="btnplus">점점 크게</button>
+        <button type="button" id="btnminus">점점 작게</button>
+        <button type="button" id="btnrnd">랜덤</button>
+        <br>
+        현재사진 너비: <span id="fsize"></span>
+    </div>
+    <img src="../연예인사진/12.jpg" style="width: 300px;" id="photo">
+
+    <script>
+        //photo
+        let p=document.getElementById("photo");
+        
+        //+버튼
+        document.getElementById("btnplus").onclick=function(){
+            //사진의 width 값 얻기
+            let w=parseInt(p.style.width);
+            //alert(w);
+            if(w<600){
+                w+=5;
+                //사진의 width style 값 변경
+                p.style.width=w+"px";
+                fsize.innerText=w;
+            }
+        }
+
+        //-버튼
+        document.getElementById("btnminus").onclick=function(){
+            //사진의 width 값 얻기
+            let w=parseInt(p.style.width);
+            //alert(w);
+            if(w>=50){
+                w-=5;
+                //사진의 width style 값 변경
+                p.style.width=w+"px";
+                fsize.innerText=w;
+            }
+        }
+
+
+        //랜덤
+        document.getElementById("btnrnd").onclick=function(){
+            //1~20 사이의 난수 발생
+            let rnd=parseInt(Math.random()*20)+1;
+            //이미지 변경
+            p.setAttribute("src",`../연예인사진/${rnd}.jpg`);
+        }
+    </script>
+</body>
+</html>

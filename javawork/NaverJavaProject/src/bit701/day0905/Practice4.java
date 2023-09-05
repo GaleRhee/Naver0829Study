@@ -4,7 +4,7 @@ public class Practice4 {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		//교재 p.137 뒷장 문재 6번과 응용 문제(for 문)
+		//교재 p.137 뒷장 문제 6번과 응용 문제(for 문)
 		
 //		for(int i=1;i<=5;i++){
 //			for(int j=1;j<=i;j++){

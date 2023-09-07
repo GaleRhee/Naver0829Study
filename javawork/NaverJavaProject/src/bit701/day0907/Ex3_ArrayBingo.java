@@ -37,7 +37,7 @@ public class Ex3_ArrayBingo {
 			
 			//빙고 계산(0이면 꽝, 아닐 경우 빙고:2개..)
 			
-			for(int i=0;i<data.length-1;i++) 
+			for(int i=0;i<3;i++) 
 			{
 				//가로선
 				if(data[i][0]==data[i][1] && data[i][1]==data[i][2])
@@ -60,8 +60,6 @@ public class Ex3_ArrayBingo {
 			else
 				System.out.println("빙고 : "+bingo+"개");
 			System.out.println();
-			
-			
 			
 			
 			System.out.print("종료:q>");

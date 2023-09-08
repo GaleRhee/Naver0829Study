@@ -37,7 +37,6 @@
             float: left;
             width: 50px;
             height: 50px;
-            /* border: 1px solid black; */
             border-radius: 100px;
             margin: auto; 
             text-align: center;
@@ -94,61 +93,22 @@
     <br>
     <button type="button" id="btnrnd">로또 번호 생성</button>
 
-    <!-- <script>
-
-        document.getElementById("btnrnd").onclick=function(){
-            let box=document.querySelectorAll("div.box");
-            console.log(box.length);
-
-            for(let i=0;i<box.length;i++)
-            {
-                box[i].innerHTML=parseInt(Math.random()*45)+1;
-                  
-                for(let j=0;j<i;j++)
-                {
-                    if(box[i]==box[j])
-                    {
-                        i--;
-                        break;
-                    }
-                }
-            }
-
-            //정렬
-            for(let i=0;i<box.length-1;i++)
-            {
-                for(let j=i+1;j<box.length;j++)
-                {
-                    if(box[i]>box[j])
-                    {
-                        let temp=box[i];
-                        box[i]=box[j];
-                        box[j]=temp;
-                    }
-                }
-            }
-        }
-    </script> -->
 </div> 
 <script>
+let lotto=new Array(6);
 
 document.getElementById("btnrnd").onclick=function(){
     let box=document.querySelectorAll("div.box");
     console.log(box.length);
-        
-    for(let i=0;i<box.length;i++)
-    {
-        box[i].innerHTML=parseInt(Math.random()*45)+1;
-              
-    }
 
-    for(let i=0;i<box.length;i++)
+    //중복 제거
+    for(let i=0;i<lotto.length;i++)
     {
-        box[i].innerHTML=parseInt(Math.random()*45)+1;
+        lotto[i]=parseInt(Math.random()*45)+1;
               
         for(let j=0;j<i;j++)
         {
-            if(box[i].innerHTML==box[j].innerHTML)
+            if(lotto[i]==lotto[j])
             {
                 console.log(1)
                 i--;
@@ -157,21 +117,25 @@ document.getElementById("btnrnd").onclick=function(){
         }
     }
 
+
     //정렬
     let temp;
-    temp=new Array(6)
-    for(let i=0;i<box.length-1;i++)
+
+    for(let i=0;i<lotto.length - 1;i++)
     {
-        for(let j=i+1;j<box.length;j++)
+        for(let j=i+1;j<lotto.length;j++)
         {
-            if(box[i].innerHTML>box[j].innerHTML)
+            if(lotto[i]>lotto[j])
             {
-                temp=box[i].innerHTML;
-                box[i].innerHTML=box[j].innerHTML;
-                box[j].innerHTML=temp;
+                temp=lotto[i];
+                lotto[i]=lotto[j];
+                lotto[j]=temp;
             }
         }
     }
+    
+    for (let i = 0; i < box.length; i++)
+        box[i].innerHTML=lotto[i];
 }
 </script>
 

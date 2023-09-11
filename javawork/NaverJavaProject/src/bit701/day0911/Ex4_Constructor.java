@@ -33,7 +33,7 @@ class Car{
 	}
 }
 
-public class Ex4_Contructor {
+public class Ex4_Constructor {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

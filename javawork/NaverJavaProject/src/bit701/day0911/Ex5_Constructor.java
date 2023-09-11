@@ -21,7 +21,7 @@ class Car2
 	public String toString() {
 		// TODO Auto-generated method stub
 		return "자동차명: "+carName+", 색상: "+carColor;
-	}//생성자가 잘 만들어졌는지 확인할 때 따로 호출을 아내도 자동으로 호출함
+	}//생성자가 잘 만들어졌는지 확인할 때 따로 호출을 안해도 자동으로 호출함, 전에 썼던 carShow 대신 씀
 }
 
 public class Ex5_Constructor {

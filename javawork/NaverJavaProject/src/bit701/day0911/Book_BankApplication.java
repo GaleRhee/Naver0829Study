@@ -32,7 +32,7 @@ public class Book_BankApplication {
 					break;
 				}
 
-				System.out.println("---------\n게좌생성\n---------");
+				System.out.println("---------\n계좌생성\n---------");
 				System.out.print("계좌 번호> ");
 				String accountNo=sc.nextLine();
 				System.out.print("계좌주> ");
@@ -46,7 +46,7 @@ public class Book_BankApplication {
 				break;
 
 			case 2:
-				System.out.println("---------\n게좌목록\n---------");
+				System.out.println("---------\n계좌목록\n---------");
 				for(int i=0;i<idx;i++)
 				{
 					account[i].accountWrite();

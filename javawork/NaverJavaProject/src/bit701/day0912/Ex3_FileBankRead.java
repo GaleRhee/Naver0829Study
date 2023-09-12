@@ -110,7 +110,7 @@ public class Ex3_FileBankRead {
 	}
 	
 	//계좌 추가 시 호출될 메서드
-	public void addAccount(String accountNo, String accountName, int money)
+	public void addAccount(String accountNo,String accountName,int money)
 	{
 		if(count==account.length) {
 			System.out.println("이미 계좌가 찼어요. 삭제 후 다시 추가하세요");
@@ -175,7 +175,7 @@ public class Ex3_FileBankRead {
 					int money=Integer.parseInt(sc.nextLine());
 					
 					//추가할 메서드 호출
-					ex.addAccount(accountNo, accountName, num);
+					ex.addAccount(accountNo, accountName, money);
 					//목록 다시 한 번 호출
 					ex.accountList();
 					break;

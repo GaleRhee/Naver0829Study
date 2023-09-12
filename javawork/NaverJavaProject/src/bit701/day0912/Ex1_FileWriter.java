@@ -14,7 +14,7 @@ public class Ex1_FileWriter {
 		//생성
 		//fw=new FileWriter(FILENAME);//파일이 없으면 새로 생성하고 있으면 덮어쓴다
 		fw=new FileWriter(FILENAME,true);
-		//실행시마다 기존 파일에 내용을 추가함, 이경우 내용 추가해도 전에 쓴 건 안 지워짐
+		//실행시마다 기존 파일에 내용을 추가함, 이 경우 내용 추가해도 전에 쓴 건 안 지워짐
 		//파일에 내용 저장하기, 내용 변경하고 저장하면 수정이 된다
 		fw.write("이름:유재석\n");
 		fw.write("핸드폰:010-5656-4545\n");

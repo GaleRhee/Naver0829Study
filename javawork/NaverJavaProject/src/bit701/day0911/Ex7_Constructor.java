@@ -5,7 +5,7 @@ public class Ex7_Constructor {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		//방법 1 (더 많음)
-//		Student[] stu=new Student[3];//5개로 배열, 할당, 초기값은 null
+//		Student[] stu=new Student[3];//3개로 배열, 할당, 초기값은 null
 //		stu[0]=new Student();
 //		stu[1]=new Student("이국종");
 //		stu[2]=new Student("이진",1999,9);

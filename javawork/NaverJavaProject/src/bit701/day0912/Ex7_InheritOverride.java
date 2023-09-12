@@ -30,11 +30,15 @@ public class Ex7_InheritOverride {
 		// TODO Auto-generated method stub
 		SubB sub1=new SubB();
 		sub1.processA();
+		sub1.processB();
 		
 		//다형성의 기본 원리
 		//선언은 부모 클래스로, 생성은 자식 클래스로
+		//processB는 호출할 수 없다
+		//왜? 자식이 가진 것 중 오버라이드된 것만 호출이 가능하다
 		SuperB sub2=new SubB();
 		sub2.processA();//오버라이드된 자식이 가진 메서드가 호출
+		//sub2.processB();// 안 뜬다
 	}
 
 }

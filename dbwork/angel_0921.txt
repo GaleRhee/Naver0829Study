@@ -1,0 +1,152 @@
+-- 2023-09-21 DB 정규화
+-- DB 정규화 (Normalization)
+-- 정규화란? 한마디로 db 서버의 메모리를 낭비하지 않기 위해서
+-- 어떤 테이블을 식별자를 가지는 여러 개의 테이블로 나누는 과정을 정규화라고 한다
+-- 정규화된 데이터 베이스는 중복이 최소화 되도록 설계된 데이터 베이스이다
+-- 장점 : 메모리를 절약할 수 있다
+--       구조화 된 시스템으로 인해서 관리가 편하다
+-- 단점 : 조회 비율이 매우 높은 시스템의 경우에는 테이블 간의 join 연산이 반복적으로
+--       이뤄지기 때문에 질의 응답 속도가 늦춰질 수 있다
+
+-- student의 num을 외부키로 갖는 새로운 테이블 stuinfo를 만들어 보자
+-- 외부 키는 테이블 생성 시에 설정해도 되고 나중에 설정해도 된다
+
+create table stuinfo(
+    idx number(5) CONSTRAINT stuinfo_pk_idx primary key,
+    num number(5), -- num 항목이 외부랑 연결하게 될 항목이다
+    addr varchar2(20),
+    hp varchar2(20));
+
+-- 외부 키로 연결을 한 후에 데이터 입력하는 건 안정성 때문이다 (자식 테이블로 부모 테이블 지울 수 없음)
+
+--student 의 num 을 외부 키로 설정(이때 주의 : student 의 num 은 반드시 primary key 라야 한다)
+-- PPT p.29 에 있음
+alter table stuinfo add CONSTRAINT stuinfo_fk_num FOREIGN key(num) references student(num);
+
+-- stuinfo 에 데이터를 추가 해보자, 없는 번호인 9번으로 insert 시 어떤 오류가 나는지 확인 필요
+-- 오류 메세지 : 무결성 제약조건(ANGEL.STUINFO_FK_NUM)이 위배되었습니다- 부모 키가 없습니다
+-- student 테이블이 부모 테이블: 거기에 num 9가 없어서 오류가 나는 것
+insert into stuinfo values (seq_stu.nextval,9,'서울시 강남구','010-2323-4545');
+-- 만약 김말자의 정보일 경우 김말자의 num 이 3 이므로 3 으로 추가해야만 한다
+insert into stuinfo values (seq_stu.nextval,3,'서울시 강남구','010-2323-4545');
+insert into stuinfo values (seq_stu.nextval,6,'부산','010-1234-1234');
+insert into stuinfo values (seq_stu.nextval,8,'제주도','010-8989-7878');
+
+-- stuinfo 만 조회
+select * from stuinfo;
+
+-- student 만 조회
+select * from student;
+
+-- 개인 정보가 등록된 학생에 한해서 모든 정보를 출력 해보자 (inner join, equi join)
+select 
+    stu.name,stu.java,stu.spring,stu.ban,info.addr,info.hp
+from student stu,stuinfo info
+where stu.num=info.num;
+
+-- 컬럼 명 앞에 무조건 어느 테이블 소속인지 붙였는데
+-- 양쪽에 같은 컬럼이 없다면 생략해도 된다
+select 
+    stu.num,name,java,spring,ban,addr,hp
+from student stu,stuinfo info
+where stu.num=info.num; -- num 을 출력 하고자 한다면 앞에 어디의 num 인지 명시해야 함
+
+
+-- 개인 정보가 등록되어 있지 않은 학생들을 출력 해보자 (outer join)
+-- sub table dp (+) : 등록이 안된 컬럼은 null 값을 출력한다
+select 
+    stu.name,stu.java,stu.spring,stu.ban,info.addr,info.hp
+from student stu,stuinfo info
+where stu.num=info.num(+);
+
+-- 위의 결과에 null인 학생만 출력하고자 할 경우
+-- 쇼핑몰의 예시로 한 번도 안 팔린 상품 찾는데 유용한 방법
+select 
+    stu.name,stu.java,stu.spring,stu.ban,info.addr,info.hp
+from student stu,stuinfo info
+where stu.num=info.num(+) and info.addr is null;
+
+-- sub table에 연결된 데이터가 있는데 부모 테이블(student) 의 해당 데이터를 삭제하고자 할 경우
+-- 오류 메세지 : 무결성 제약조건(ANGEL.STUINFO_FK_NUM)이 위배되었습니다- 자식 레코드가 발견되었습니다
+delete from student where num=3; -- 오류, 자식 테이블에 있는 데이터면 삭제 불가
+-- 정 지우고 싶으면 자식 테이블 삭제 후에 값 삭제 후 다시 생성 해야 한다 
+-- or cascade 달아두기 (예시로 댓글 하나라도 달리면 게시판 삭제가 불가능 해지는 경우)
+
+delete from student where num=7; -- 지워짐, stuinfo에 데이터가 없어서
+
+-- student 의 3번 데이터를 지워보자
+-- 자식 테이블 (stuinfo 의 num인 데이터를 먼저 삭제 후 student 삭제)
+delete from stuinfo where num=3; -- 자식 테이블 먼저 삭제
+delete from student where num=3; -- 부모 테이블 삭제
+
+-- 부모 테이블 drop
+-- 오류 발생 : 외래 키에 의해 참조되는 고유/기본 키가 테이블에 있습니다
+drop table student;
+
+-- 자식 테이블은 삭제가 될까요? 네, 됩니다
+drop table stuinfo;
+
+-------------------------------------------------------------------------------------------------
+
+-- 상품 정보를 담을 shop 테이블
+-- 장바구니에 담을 cart 테이블을 만드는데, 상품 정보 저장을 위해서 shop 의 num을 외부 키로 설정
+-- 상품을 삭제하면 장바구니의 해당 데이터가 자동으로 삭제 되도록 on delete cascade 설정 해보자
+-- 시퀀스도 새로 하나 만들어 보자
+create SEQUENCE seq_shop start with 10 INCREMENT by 10 NOCACHE;
+
+-- shop table 생성
+create table shop (
+    sang_no number(5) CONSTRAINT shop_pk_no primary key,
+    sang_name varchar2(100),
+    sang_price number(7),
+    sang_color varchar2(20)
+);
+
+-- 외부 키로 연결된 cart table 생성 - shop의 상품을 지우면 장바구니 목록은 자동으로 지워지도록
+-- cascade 를 설정해서 생성 해보자
+create table cart (
+        cart_no number(5) CONSTRAINT cart_pk_no primary key,
+        sang_no number(5),
+        cnt number(5),
+        cartday date
+);
+
+alter table cart add CONSTRAINT cart_fk_shopno FOREIGN key(sang_no) 
+        references shop(sang_no) on delete cascade;
+
+
+-- model 확인해 보세요
+
+-- 5개의 상품을 등록 해보자
+insert into shop values (seq_shop.nextval,'블라우스',23000,'yellow');
+insert into shop values (seq_shop.nextval,'청바지',45000,'black');
+insert into shop values (seq_shop.nextval,'브이넥티',11000,'white');
+insert into shop values (seq_shop.nextval,'브이넥티',32000,'red');
+insert into shop values (seq_shop.nextval,'체크자켓',130000,'gray');
+
+commit;
+
+-- cart 에 블라우스, 브이넥티(white), 체크자켓 3개에 대해서 추가 - 날짜는 현재 날짜로 (sysdate)
+insert into cart values (seq_shop.nextval,10,2,sysdate);
+insert into cart values (seq_shop.nextval,30,3,'2023-09-20');
+insert into cart values (seq_shop.nextval,50,1,sysdate);
+commit;
+
+select * from cart;
+
+-- 조회 (inner join)
+-- 상품명, 가격, 색상, 개수, 구입일 (yyyy-mm-dd hh24:mi)
+select 
+    sang_name,sang_price,sang_color,cnt,to_char(cartday,'yyyy-mm-dd hh24:mi') cartday
+from shop s, cart c
+where s.sang_no=c.sang_no;
+
+
+-- 아무도 cart에 담지 않은 상품명 조회
+-- 상품명, 가격, 색상을 출력
+select 
+    sang_name,sang_price,sang_color
+from shop s, cart c
+where s.sang_no=c.sang_no(+) and c.cnt is null;
+
+

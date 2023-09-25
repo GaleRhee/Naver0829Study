@@ -1,0 +1,37 @@
+-- 문제 : food 테이블
+/*
+    fname,fprice,no 입력을 받아서 
+    no 가 1 이면 fname,fprice 로 데이터 추가를 하고
+    no 가 2 이면 food 전체 데이터 출력
+    (예제 13, 14 참고)
+*/
+accept iname prompt 'food name?';
+accept iprice prompt 'food price?';
+accept ino prompt 'number?';
+DECLARE
+    -- 변수 선언하는 영역
+   v_no number(1) := '&ino';
+   v_fname food.fname%TYPE := '&iname';
+   v_fprice food.fprice%TYPE := '&iprice';
+       
+    cursor s1 
+    is
+    select * from food;
+BEGIN
+    -- sql 구문이나 pl-sql 문으로 코딩하는 영역 (:=: 대입, =: 비교, 동등)
+    if v_no=1 then 
+        insert into food values (seq_food.nextval,v_fname,v_fprice);
+        commit;
+        DBMS_Output.put_line('메뉴 정보를 추가했습니다');
+    elsif v_no=2 then
+        DBMS_Output.put_line('메뉴번호  메뉴명  가격');
+        DBMS_Output.put_line('--------------------');
+        for s in s1 loop
+            exit when s1%notfound; -- 더 이상 데이터가 없으면 빠져 나간다
+            DBMS_Output.put_line(s.food_num||'   '||s.fname||'   '
+            ||s.fprice);
+        end loop;
+    end if;
+    commit;
+end;
+/

@@ -11,14 +11,12 @@ create table student(
     
 
 
-drop table student;
 
 --시퀀스 생성  seq_stu  기본(1부터 1씩증가), nocache 추가
 select * from seq;
 
 create SEQUENCE seq_stu nocache;
 
-drop sequence seq_stu;
 
 --제약조건들 추가
 --num  에 primary key 추가(student_pk_num)

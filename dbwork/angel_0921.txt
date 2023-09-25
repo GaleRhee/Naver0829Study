@@ -26,7 +26,7 @@ alter table stuinfo add CONSTRAINT stuinfo_fk_num FOREIGN key(num) references st
 -- stuinfo 에 데이터를 추가 해보자, 없는 번호인 9번으로 insert 시 어떤 오류가 나는지 확인 필요
 -- 오류 메세지 : 무결성 제약조건(ANGEL.STUINFO_FK_NUM)이 위배되었습니다- 부모 키가 없습니다
 -- student 테이블이 부모 테이블: 거기에 num 9가 없어서 오류가 나는 것
-insert into stuinfo values (seq_stu.nextval,9,'서울시 강남구','010-2323-4545');
+insert into stuinfo values (seq_stu.nextval,1,'서울시 강남구','010-2323-4545');
 -- 만약 김말자의 정보일 경우 김말자의 num 이 3 이므로 3 으로 추가해야만 한다
 insert into stuinfo values (seq_stu.nextval,3,'서울시 강남구','010-2323-4545');
 insert into stuinfo values (seq_stu.nextval,6,'부산','010-1234-1234');
@@ -102,6 +102,7 @@ create table shop (
     sang_color varchar2(20)
 );
 
+
 -- 외부 키로 연결된 cart table 생성 - shop의 상품을 지우면 장바구니 목록은 자동으로 지워지도록
 -- cascade 를 설정해서 생성 해보자
 create table cart (
@@ -148,5 +149,86 @@ select
     sang_name,sang_price,sang_color
 from shop s, cart c
 where s.sang_no=c.sang_no(+) and c.cnt is null;
+
+-- cascade 를 지정 했으므로 cart에 담긴 상품도 삭제가 된다 (이때 cart 도 자동으로 지워짐)
+delete from shop where sang_no=10;
+
+-- 부모 테이블 drop 시켜 보자
+drop table shop; -- 에라가 난다
+
+-- 테이블 삭제 시 sub table 먼저 제거 후 부모 table 제거
+
+drop table cart;
+drop table shop;
+
+-- 시퀀스도 지워 보자
+drop SEQUENCE seq_shop;
+
+-----------------------------------------------------------------------------------------
+
+-- 문제 
+-- 시퀀스 : seq_food 생성
+create SEQUENCE seq_food nocache;
+
+-- drop sequence seq_food;
+
+-- 레스토랑의 메뉴 테이블 생성 (테이블명 : food)
+-- food_num 숫자(5) 기본키, fname 문자열 (20) : 메뉴명, fprice 숫자(7) : 가격
+create table food(
+    food_num number(5) constraint food_pk_fn primary key,
+    fname varchar(20),
+    fprice number(7)
+);
+
+-- sub table : 고객 테이블 (person)
+-- person num 숫자(5) 기본키, food_num 외부키 설정 (cascade 설정)
+-- person_name 문자열 (10) : 고객명
+-- 예약일 : bookingday : date 타입
+create table person (
+    person_num number(5) CONSTRAINT person_pk_pn primary key,
+    food_num number(5),
+    person_name varchar2(10),
+    bookingday date
+);
+
+-- drop table person;
+
+alter table person add CONSTRAINT person_fk_fn FOREIGN key(food_num) 
+        references food(food_num) on delete cascade;
+
+-- food 에 5 개의 메뉴를 등록하자 (스파게티, 떡볶이 등등등...)
+insert into food values (seq_food.nextval,'스파게티',8500);
+insert into food values (seq_food.nextval,'떡볶이',7500);
+insert into food values (seq_food.nextval,'라면',5500);
+insert into food values (seq_food.nextval,'김밥',4500);
+insert into food values (seq_food.nextval,'돈까스',10500);
+commit;
+
+
+-- 주문한 고객 정보를 추가 해보자 (같은 메뉴를 여러 명 주문 하기도 함..)
+insert into person values (seq_food.nextval,1,'홍길동',sysdate);
+insert into person values (seq_food.nextval,2,'강호동',sysdate);
+insert into person values (seq_food.nextval,1,'이영자',sysdate);
+insert into person values (seq_food.nextval,3,'김준현',sysdate);
+insert into person values (seq_food.nextval,4,'문철민',sysdate);
+
+
+-- 조회 : 시퀀스(food_num), 주문자명, 음식명, 가격, 예약일, (제목도 한글로 주기)
+select
+    f.food_num 메뉴번호,person_name 주문자명,fname 메뉴명, fprice 가격,
+    to_char(bookingday,'yyyy-mm-dd') 예약일
+from food f,person p
+where f.food_num=p.food_num;
+
+-- 메뉴 중 스파게티를 삭제 시 주문한 테이블에서도 지워지는지 확인
+delete from food where food_num=1;
+
+-- 다시 한 번 확인
+select
+    f.food_num 메뉴번호,person_name 주문자명,fname 메뉴명, fprice 가격,
+    to_char(bookingday,'yyyy-mm-dd') 예약일
+from food f,person p
+where f.food_num=p.food_num;
+
 
 

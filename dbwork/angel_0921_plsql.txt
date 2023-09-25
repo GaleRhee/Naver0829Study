@@ -5,7 +5,7 @@ DECLARE
     -- 변수 선언하는 영역
     v_no number(4,1); -- 4자리에 소숫점 이하 1자리 값을 넣는 변수 선언
 BEGIN
-    -- sql 구문이나 pl-sql 문으로 코딩하는 영역 (:=: 대입, =: 비교, 동등)
+    -- sql 구문이나 pl-sql 문으로 코딩하는 영역 (:= : 대입, = : 비교, 동등)
     v_no:=12.7;
     DBMS_Output.put_line(v_no); -- 출력
 end;
@@ -60,7 +60,7 @@ DECLARE
     vprice2 varchar2(20);
 BEGIN
     -- sql 구문이나 pl-sql 문으로 코딩하는 영역 (:=: 대입, =: 비교, 동등)
-    select sang_price,sang_color,ltrim(to_char(sang_price,'L999,999'))
+    select sang_price,sang_color,Ltrim(to_char(sang_price,'L999,999'))
     into vprice,vcolor,vprice2
     from shop where sang_name=vsangpum;
     

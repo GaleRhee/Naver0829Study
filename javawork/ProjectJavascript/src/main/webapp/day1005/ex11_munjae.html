@@ -24,7 +24,7 @@
 		$(function(){
 			//문제 1 : h3 바로 아래 b의 글꼴을 Single Day로, 사이즈를 25px로 변경하고 글자색을 red로 변경
 			$("h3>b").css({
-				"font-family":"Single Days",
+				"font-family":"Single Day",
 				"font-size":"25px",
 				"color":"red"
 			});
@@ -32,7 +32,7 @@
 			//문제 2 : h3 아래의 span 태그의 값을 클릭하면 안의 텍스트를 읽어서 이미지의 src에 넣기
 			//			그 텍스트를 h4 아래의 b 태그에도 텍스트로 넣어주세요
 			$("h3>span").click(function(){
-				let spsrc=$(this).html();
+				let spsrc=$(this).html();//$(this).text() 도 됨
 				$("img").attr("src",spsrc);
 				//$("h4>b").text(`<img src="${spsrc}" width="200">`);
 				//$("h4>b").text($(this).html());
@@ -44,6 +44,14 @@
 			$("img").hover(function(){
 				$(this).toggleClass("photo");
 			});
+			
+			/*
+			 $("img").hover(function(){
+				$(this).addClass("photo");
+			}function(){
+				$(this).removeClass("photo");
+			});
+			*/
 		});
 </script>
 </head>

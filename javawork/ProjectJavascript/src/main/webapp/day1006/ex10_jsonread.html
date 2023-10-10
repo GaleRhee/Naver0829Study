@@ -13,7 +13,14 @@
          color: midnightblue;
      }
      
-	
+	div.box{
+		width: 30px;
+		height: 30px;
+		float: left;
+		margin: 3px;
+		border: 1px solid white;
+		border-radius: 30px;
+	}
  </style>
  <script>
 		$(function(){
@@ -27,21 +34,18 @@
 			
 				let s=`<table class="table table-bordered" style="width: 400px">`;
 					$.each(arr,function(index,item){
-						s+="<tr>";
-						s+="<td width=150>";
-						s+=`<img src="${item.photo}" style="width:150px;height:180px">`;
-						s+="</td>";
-						s+=`<td style="vertical-align:middle">`;
-						s+=`<figure>
-							<figcaption>
+						s+=`
+							<tr>
+								<td width=150 align=center valign=middle>
+									<img src="${item.photo}" style="width:150px;height:180px">
+							</td>
+							<td style="vertical-align:middle">
 								<h2>${item.sname}</h2>
-								<h5 style="color:lightslategray">${item.price}원</h5>`;
-						s+="</figcaption>";
-						$.each(item.color,function(index2,item){
-							s+=`<span style="width:15px;height:15px;border-radius:15px;
-								float:left;background-color:${item};margin-right:5px;"></span>`;
+								<h5 style="color:lightslategray">${item.price}원</h5>
+								`;
+						$.each(item.color,function(index2,color){
+							s+=`<div class="box" style="background-color: ${color}"></div>`;
 						});
-						s+="</figure>";
 						s+="</td>";
 						s+="</tr>";
 						

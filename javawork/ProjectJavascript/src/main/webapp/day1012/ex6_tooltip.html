@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Jua&family=Lobster&family=Nanum+Pen+Script&family=Permanent+Marker&family=Single+Day&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">    
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+
+ <style>
+     body * {
+         font-family: 'Jua';
+     }
+     
+     .mytooltip{
+		 position: absolute;
+		 line-height: 1.5;
+		 color: black;
+		 width: 200px;
+		 background-color: #f90;
+		 border: 2px solid white;
+		 padding: 10px;
+		 font-size: 14px;
+		 border-radius: 10px;
+		 opacity: 0.8;
+		 display: none;
+	 }
+     
+     .view{
+		 cursor: pointer;
+		 text-decoration: underline;
+		 background-color: #ccc;
+	 }
+	 
+	 ol.today li{
+		 width: 200px;
+		 cursor: pointer;
+		 background-color: #ccc;
+	 }
+	 
+	 ol.today li:hover{
+		 background-color: rgba(0, 0, 0, 0.3);
+	 }
+     
+ </style>
+ <script>
+		$(function(){
+			$("a").bind({
+				mousemove:function(e){
+					$("div.mytooltip").css({
+						"left":e.pageX+"px",
+						"top":e.pageY+"px"
+					});
+				},
+				mouseover:function(){
+					$("div.mytooltip").fadeIn('fast');
+				},
+				mouseout:function(){
+					$("div.mytooltip").fadeOut('fast');
+				}
+			});
+			
+			
+			$(".view").bind({
+				mousemove:function(e){
+					
+					$("div.mytooltip").css({
+						"left":e.pageX+"px",
+						"top":e.pageY+"px"
+					});
+				},
+				mouseover:function(){
+					let color=$(this).attr("color");
+					//let text=$(this).text();
+					let text=$(this).attr("content");
+					
+					$("div.mytooltip").css("color",color).html(text);
+					$("div.mytooltip").fadeIn('fast');
+				},
+				mouseout:function(){
+					$("div.mytooltip").fadeOut('fast');
+				}
+			});
+			
+			$("ol.today li").bind({
+				mousemove:function(e){
+					
+					$("div.mytooltip").css({
+						"left":e.pageX+"px",
+						"top":e.pageY+"px"
+					});
+				},
+				mouseover:function(){
+					let photo=$(this).attr("photo");
+					let text=$(this).text();
+					
+					$("div.mytooltip").html(`<b>${text}</b><br><img src="${photo}" border=2 width=100>`);
+					$("div.mytooltip").fadeIn('fast');
+				},
+				mouseout:function(){
+					$("div.mytooltip").fadeOut('fast');
+				}
+			});
+		});
+</script>
+</head>
+<body>
+	<h4 class="alert alert-danger">Tooltip 링크에 마우스를 올려보세요</h4>
+	<br><br>
+	<a style="font-size: 25px;cursor: pointer;">
+		Tooltip Tooltip Tooltip Tooltip
+	</a>
+
+	<pre>
+"체험학습장 가다가"…목포 선착장 바다에 빠진 유치원생 <b class="view" color="magenta" content="목숨을 잃은 경우를 칭한다">숨져</b><br>
+		
+체험학습장 이동 중 바다에 빠진 5살 유치원생이 병원으로 이송됐으나 숨졌다.
+
+12일 뉴시스에 따르면 이날 <b class="view" color="blue" content="이 시간에 먹는 밥은 브런치일 가능성이 높다">오전 10시45분</b> 전남 목포시 용해동 목포문화예술회관 
+
+주변 선착장에서 A양(5)이 물에 빠졌다.
+
+A양은 신고 16분 만인 11시1분 의식 불명 상태로 구조돼 병원으로 옮겨졌으나 <b class="view" color="green" content="매우 아쉽고 슬프네요">끝내 숨졌다.</b>
+
+당시 A양은 유치원 체험학습을 위해 문화예술회관으로 이동하던 중 물에 빠진 것으로 전해졌다.
+
+현재 목포 해경은 정확한 사고 경위를 조사 중이다.
+	</pre>
+	<hr>
+	<h2>오늘 나의 식사 및 쇼핑 목록</h2>
+	<ol type="1" class="today">
+		<li photo="../food/1.jpg">에그 샌드위치</li>
+		<li photo="../food/11.jpg">망고 빙수</li>
+		<li photo="../shop/8.jpg">회색 스웨터</li>
+		<li photo="../shop/29.jpg">여름용 모자</li>
+		
+	</ol>
+	
+	<div class="mytooltip">
+		Java<br>
+		HTML5<br>
+		SpringBoot<br>
+		React<br>
+		jQuery
+	</div>
+</body>
+</html>

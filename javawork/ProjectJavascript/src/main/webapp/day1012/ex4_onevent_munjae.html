@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Jua&family=Lobster&family=Nanum+Pen+Script&family=Permanent+Marker&family=Single+Day&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">    
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+
+ <style>
+     body * {
+         font-family: 'Jua';
+     }
+     
+     div{
+		 position: absolute;
+		 width: 300px;
+		 height: 150px;
+		 font-size: 19px;
+		 /*border: 1px solid gray;*/
+	 }
+	 
+	 #one{left: 50px;top: 100px;}
+	 #two{left: 330px;top: 100px;}
+	 #three{left: 700px;top: 100px;}
+	 #result{
+		 left: 100px;
+		 top: 400px;
+		 width: 1000px;
+		 font-size: 2em;
+		 text-align: center;
+		 border: 3px solid gold;
+		 border-radius: 30px;
+		 padding-top: 20px;
+		 visibility: hidden;
+	 }
+	 
+	 #three h3:hover{
+		 cursor: pointer;
+		 background-color: orange;
+	 }
+ </style>
+ <script>
+		$(function(){
+			let theater="",movie="";
+			let b=`<button type="button" class="btn btn-success btn-sm" id="btn1" 
+			>영화 예매</button>`;
+			$("#one").append(b);
+			
+			$(document).on("click","#btn1",function(){
+				let tag=`<button type="button" class="btn btn-info btn-sm" id="btn2" 
+					>극장 선택</button>`;
+					
+				tag+="<br>";
+				tag+=`<button type="button" class="btn btn-info btn-sm" id="btn3" 
+					style="margin-top: 20px">영화 선택</button>`;
+				
+				$("div#two").html(tag);
+				$("div#result").css("visibility","visible");
+			});
+			
+			
+			$(document).on("click","#btn2",function(){
+				/*
+				//내가 쓴 것
+				let arrtheater=["롯데","메가박스","CGV","동대문 극장"];
+				let s="";
+				$.each(arrtheater,function(idx,item){
+					s+=`<h3 class="theater">${item}</h3>`;
+					
+				});
+				$("div#three").html(s);
+				
+				
+				$(document).on("click","div#three h4.seltheater",function(){
+					let theater=$(this).html();
+					let s="";
+					
+					s+=`<h3>극장명 : ${theater}</h3>`;
+					$("div#result").html(s);
+				});
+				*/
+				
+				var s="<h3 class='theater'>롯데</h3>";
+				s+="<h3 class='theater'>CGV</h3>";
+				s+="<h3 class='theater'>메가박스</h3>";
+				s+="<h3 class='theater'>동대문 극장</h3>";
+				$("#three").empty();//태그 안의 값들 모두 지우기
+				$("#three").append(s);//추가
+				
+			});
+			
+			$(document).on("click","#btn3",function(){
+				/*
+				//내가 쓴 거
+				let arrmovie=["보스턴 마라톤","거미집","천박사","잠"];
+				let s="";
+				$.each(arrmovie,function(idx,item){
+					s+=`<h4 class="movie">${item}</h4>`;
+					
+				});
+				$("div#three").html(s);
+				*/
+				
+				var s="<h3 class='movie'>거미집</h3>";
+				s+="<h3 class='movie'>천박사</h3>";
+				s+="<h3 class='movie'>보스턴 마라톤</h3>";
+				s+="<h3 class='movie'>잠</h3>";
+				$("#three").empty();//태그 안의 값들 모두 지우기
+				$("#three").append(s);//추가
+				
+				
+				
+				
+				/*
+				$(document).on("click","div#three h4.selmovie",function(){
+					let movie=$(this).html();
+					let s="";
+					
+					s+=`<h3>영화명 : ${movie}</h3>`;
+					$("div#result").remove("h4.selmovie");
+					$("div#result").append(s);
+				});
+				*/
+			});
+			
+			$(document).on("click","#three h3",function(){
+				var select=$(this).attr("class");
+				if(select=='theater')
+					theater="극장명 : "+$(this).text();
+				else
+					movie="영화 제목 : "+$(this).text();
+				
+				$("#result").html(theater+"<br>"+movie);
+			});
+			
+		});
+</script>
+</head>
+<body>
+	
+	<div id="one"></div>
+	<div id="two"></div>
+	<div id="three"></div>
+	<div id="result">result</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

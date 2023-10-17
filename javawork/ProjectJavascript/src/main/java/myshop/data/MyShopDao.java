@@ -111,7 +111,7 @@ public class MyShopDao {
 		}
 	}
 	
-	
+	/*
 	//update
 	public void updateShop(String sangpum,String color,int price,String photo,String num)
 	{
@@ -131,6 +131,38 @@ public class MyShopDao {
 			pstmt.setInt(3, price);
 			pstmt.setString(4, photo);
 			pstmt.setString(5, num);
+			//실행
+			pstmt.execute();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			db.dbClose(pstmt, conn);
+			
+		}
+	}
+	*/
+	
+	
+	//update
+	public void updateShop(MyShopDto dto)
+	{
+		String sql="""
+				update myshop
+				set sangpum=?,color=?,price=?,photo=?
+				where num=?
+				""";
+		Connection conn=db.getConnection();
+		PreparedStatement pstmt=null;
+		
+		try {
+			pstmt=conn.prepareStatement(sql);
+			//바인딩
+			pstmt.setString(1, dto.getSangpum());
+			pstmt.setString(2, dto.getColor());
+			pstmt.setInt(3, dto.getPrice());
+			pstmt.setString(4, dto.getPhoto());
+			pstmt.setInt(5, dto.getNum());
 			//실행
 			pstmt.execute();
 		} catch (SQLException e) {

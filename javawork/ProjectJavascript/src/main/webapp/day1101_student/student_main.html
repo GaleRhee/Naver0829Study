@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Jua&family=Lobster&family=Nanum+Pen+Script&family=Permanent+Marker&family=Single+Day&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">    
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+
+
+ <style>
+     body * {
+         font-family: 'Jua';
+        
+     }
+     
+ </style>
+ <script>
+	$(function(){
+		//처음 시작 시 모든 데이터 출력
+		list("");
+		
+		$("#txtword").keyup(function(e){
+			let search=e.target.value;
+			//$(".result").html(search);
+			
+			list(search);
+		});
+		
+		$(".addstu").click(function(){
+	 		
+	 		//$(".addstudent").toggle('slow'); //만약 result 부분에 table을 만들었다면 이렇게도 가능 - 동현
+	 		
+ 		});
+		
+		
+		$(document).on("click",".studentdel",function(){
+			let num=$(this).attr("num");
+			let a=confirm("삭제하려면 확인을 눌러주세요");
+			if(!a) return;
+			
+			//alert(num);
+			$.ajax({
+				type: "get",
+				dataType: "html",
+				url: "studentdelete.jsp",
+				data: {"num":num},
+				success :function(res){
+					//삭제 성공 후 목록 다시 출력
+					list("");
+					//search 의 검색 글자 삭제
+					$("#txtword").val("");
+				}
+			});
+		});
+	});
+	function list(search){
+		$.ajax({
+				type: "get",
+				dataType: "json",
+				url: "studentlist.jsp",
+				data: {"search":search},
+				success :function(res){
+					let s=`<table class="table table-striped" style="width: 550px;">`;
+					$.each(res,function(idx,item){
+						s+=
+						`
+						<tr>
+							<td>
+								<span style="color: gray;font-size: 15px;">등록일 : ${item.writeday}</span>
+								<br>
+								<b style="font-size: 24px;">${item.name}</b>
+								&nbsp;&nbsp;&nbsp;
+								<b style="font-size: 19px;color:gray;font-family: Gamja Flower;">혈액형 : ${item.blood}</b>
+								&nbsp;&nbsp;&nbsp;
+								<b style="font-size: 19px;color:gray;font-family: Gamja Flower;">전화번호 : ${item.phone}</b>
+					
+								<i class="bi bi-trash studentdel"
+								 style="cursor: pointer;float: right;font-size: 14px;vertical-align: middle;"
+								 num="${item.num}"></i>
+							</td>
+						</tr>	
+						`;
+					});
+					s+="</table>";
+					$(".result").html(s);
+					
+				}
+		});
+	}
+	
+	function addstudent()
+ 	{
+ 		$.ajax({
+ 			type: "get",
+ 			dataType: "json",
+ 			url: "studentadd.jsp",
+ 			success:function(res){
+ 				let s="";
+ 				s+=
+ 				`
+ 				<table class="table table-striped addstudent" style="width: 550px;">
+					 <tr>
+						 <td style="align: center; width: 100px;">이름
+						 </td>
+						 <td>
+							 <input type="text" class="form-control" name="stuname" placeholder="학생 이름">
+						 </td>
+					 </tr>
+					 <tr>
+						 <td style="align: center; width: 100px;">혈액형
+						 </td>
+						 <td>
+							 <select class="form-select" name="blood">
+								 <option value="A">A</option>
+								 <option value="B">B</option>
+								 <option value="O">O</option>
+								 <option value="AB">AB</option>
+							 </select>
+						 </td>
+					 </tr>
+					 <tr>
+						 <td style="align: center; width: 100px;">전화 번호
+						 </td>
+						 <td>
+						 </td>
+					 </tr>
+					 <tr colspan="2">
+						 <button type="submit" class="btn"> 학생 추가</button>
+					 </tr>
+ 				`;
+ 				
+ 				s+="</table>"
+ 				$(".result").html(s);
+ 			}
+ 		});
+ 			
+ 	}
+	
+</script>
+</head>
+<body>
+	<div style="margin: 30px;">
+		<div class="input-group" style="width: 400px;">
+			<h5 style="margin-top: 8px;">학생명 검색 :</h5>
+			<input type="text" class="form-control" style="width: 120px;margin-left: 16px;" 
+			autofocus placeholder="학생 이름 입력" id="txtword">
+			&nbsp;&nbsp;&nbsp;
+			<i class="bi bi-plus-circle addstu" 
+			style="cursor: pointer;float: left;font-size: 20px;margin-top: 6px;"
+			num="${item.num}"></i>
+		</div>
+		
+	</div>
+	<div style="margin: 30px;font-size: 22px;" class="result">
+		출력
+	</div>
+</body>
+</html>

@@ -14,11 +14,11 @@
          font-family: 'Jua';
      }
      
-      div.myshopicon{
+      div.simpleicon{
      	margin: 30px 100px;
      }
      
-     div.myshopicon *{
+     div.simpleicon *{
      	cursor: pointer;
      	margin-right: 30px;
      	font-size: 30px;
@@ -29,8 +29,8 @@
      } 
      
      div.box{
-     	width: 150px;
-     	height: 200px;
+     	width: 200px;
+     	height: 270px;
      	text-align: center;
      	border: 5px solid gray;
      	border-radius: 20px;
@@ -40,8 +40,8 @@
      }
      
      div.box figure img{
-     	width: 130px;
-     	height: 140px;
+     	width: 160px;
+     	height: 160px;
      	border-radius: 30px;
      	margin-top: 5px;
      }
@@ -52,23 +52,74 @@
      	margin-right: 20px;
      }
      
+     div.content{
+		 display:none;
+	 }
+     
+     .mytooltip{
+		 position: absolute;
+		 color: black;
+		 width: auto;
+		 background-color: #f90;
+		 border: 2px solid white;
+		 padding: 10px;
+		 font-size: 14px;
+		 border-radius: 30px;
+		 /*opacity: 0.8;*/
+		 display: none;
+	 }
+	 
+	 .mytooltip img{
+		 border-radius: 30px;
+	 }
+     
  </style>
- <script>
+ <script type="text/javascript">
 		$(function(){
- 		//처음 시작 시 그리드 모양 이미지 형태로 출력하기
- 		grid();
- 		$(".myshopgrid").css("color","red");
- 		
- 		$(".myshopgrid").click(function(){
- 			$(this).css("color","red");
- 			$(".myshoplist").css("color","black");
+ 			//처음 시작 시 그리드 모양 이미지 형태로 출력하기
+ 			//grid();
+	 		
  			grid();
- 		});
- 		
- 		$(".myshoplist").click(function(){
- 			$(this).css("color","red");
- 			$(".myshopgrid").css("color","black");
- 			list();
+	 		
+ 			$(".simplelist").css("color","red");
+	 		
+ 			$(".simplegrid").click(function(){
+	 			$(this).css("color","red");
+ 				$(".simplelist").css("color","black");
+ 				grid();
+ 			});
+	 		
+ 			$(".simplelist").click(function(){
+	 			$(this).css("color","red");
+ 				$(".simplegrid").css("color","black");
+ 				list();
+ 			});
+ 			
+ 			//list 의 제목 클릭 시 해당 내용만 나오게 하기
+ 			$(document).on("click","b.subject",function(){
+				$("div.content").hide();
+				
+				$(this).parent().next().slideDown('slow');	 
+			});
+			
+			
+			//사진에 마우스를 올리면 사진이 크게 보이게 하기
+ 			$(document).on("mousemove","div.box img",function(e){
+				 $("div.mytooltip").css({
+						"left":e.pageX+"px",
+						"top":e.pageY+"px"
+				 });
+			});
+			
+ 			$(document).on("mouseover","div.box img",function(e){
+				 let imgSrc=$(this).attr("src");
+				 $("div.mytooltip").html(`<img src="${imgSrc}" style="max-width: 400px;">`);
+				 $("div.mytooltip").fadeIn('fast');
+			});
+			
+ 			$(document).on("mouseout","div.box img",function(e){
+				 $("div.mytooltip").fadeOut('fast');
+			});
  		});
  		
  		function grid()
@@ -77,9 +128,28 @@
  				type: "get",
  				dataType: "json",
  				url: "simpletojson.jsp",
- 				success :function(res){
+ 				success:function(res){
  					let s="";
- 					
+ 					$.each(res,function(idx,item){
+						 if(item.photo!='no'){
+						 	s+=
+							 	`
+ 								<div class="box" style="background-color:#fcc;">
+							 		<figure>
+									 	<img src="../save/${item.photo}">
+									 	<figcaption>
+										 	<b>${item.subject}</b><br>
+										 	<span style="color: gray;">${item.writer}</span>
+										 	<br>
+										 	<span class="day">${item.writeday}
+											 	&nbsp;&nbsp;&nbsp;
+										 	 	조회 ${item.readcount}</span>
+									 	</figcaption>
+									</figure>
+								</div>
+ 								`;
+						 	}
+					 });
  					
  					$(".list").html(s);
  				},
@@ -101,49 +171,38 @@
  				type: "get",
  				dataType: "json",
  				url: "simpletojson.jsp",
- 				success :function(res){
+ 				success:function(res){
  					let s="";
- 					s+=`
+ 					s+=
+ 					`
  					<table class="table table-bordered" style="450px">
-						 <tr>
-							 <th width=50>번호</th>
-							 <th width=150>상품명</th>
-							 <th width=100>가격</th>
-							 <th width=70>색상</th>
-							 <th width=80>등록일</th>
-						</tr>
  					
  					`;
- 					
- 					
- 					$(res).find("myshop").each(function(idx,item){
- 						let sangpum=$(item).find("sangpum").text();
- 						let price=$(item).find("price").text();
- 						let photo=$(item).find("photo").text();
- 						console.log(photo);
- 						let color=$(item).find("color").text();
- 						let writeday=$(item).find("writeday").text();
- 						
- 						s+=
- 						`
- 						<tr>
-							 <td>${idx+1}</td>
+ 					$.each(res,function(idx, item){
+						 s+=
+						 `
+						 <tr>
 							 <td>
-								 <img src="../shop/${photo}" width=40 height=40 border=1 hspace=5>
-								 <b>${sangpum}</b>
-							</td>
-							<td>${price} 원</td>
-							<td>
-								<div style="width: 30px;height: 30px;border: 1px solid black;background-color: ${color}">
-							</td>
-							<td>${writeday}</td>
-						</tr>
- 						
- 						`;
- 						
- 					});
+							 	<h5><b class="subject" style="cursor: pointer;">${item.subject}</b></h5>
+							 	<div style="margin-left: 20px; color: gray;" class="content">
+									 <pre>${item.content}</pre>
+								</div>
+								<div>
+									<span>${item.writer}</span>&nbsp;&nbsp;
+									<span class="day">${item.writeday}
+										&nbsp;&nbsp;
+										조회 ${item.readcount}
+									</span>
+								</div>
+							 </td>
+						 </tr>
+						 `;
+					});
  					s+="</table>";
  					$(".list").html(s);
+ 					
+ 					//첫번째 content만 일단 보이도록
+ 					$("div.content").eq(0).css("display","block");
  				},
  				statusCode:{
  					404:function(){
@@ -157,17 +216,24 @@
  			
  		}
  		
- 	});
+ 		
 </script>
 </head>
 <body>
-	<div class="myshopicon">
-		<i class="bi bi-grid myshopgrid"></i>
-		<i class="bi bi-card-list myshoplist"></i>
+	<div class="simpleicon">
+		<i class="bi bi-grid simplegrid"></i>
+		<i class="bi bi-card-list simplelist"></i>
 	</div>
 	
 	<div class="list">
 		123
+	</div>
+	<div class="mytooltip">
+		Java<br>
+		HTML5<br>
+		SpringBoot<br>
+		React<br>
+		jQuery
 	</div>
 </body>
 </html>

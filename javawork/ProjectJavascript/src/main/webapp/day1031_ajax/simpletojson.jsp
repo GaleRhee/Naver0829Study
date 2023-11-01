@@ -6,7 +6,7 @@
 <%@page import="simpleboard.data.SimpleBoardDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
+
 <%
 	SimpleBoardDao dao=new SimpleBoardDao();
 	List<SimpleBoardDto> list=dao.getAllList();
@@ -22,7 +22,7 @@
 		ob.put("content",dto.getContent());
 		ob.put("photo",dto.getPhoto());
 		ob.put("readcount",dto.getReadcount());
-		ob.put("writeday",dto.getWriteday());
+		ob.put("writeday",sdf.format(dto.getWriteday()));
 		
 		arr.add(ob);
 	}

@@ -54,44 +54,6 @@ public class StudentDao {
 	}
 	
 	
-	//전체 출력
-	public List<StudentDto> getAllNames()
-	{
-		
-		List<StudentDto> list=new Vector<StudentDto>();
-		Connection conn=db.getConnection();
-		PreparedStatement pstmt=null;
-		ResultSet rs=null;
-		String sql="""
-				select *
-				from student 
-				order by num
-				""";
-		
-		try {
-			pstmt=conn.prepareStatement(sql);
-			rs=pstmt.executeQuery();
-			
-			while(rs.next())
-			{
-				StudentDto dto=new StudentDto();//반드시 while 문 안에 선언
-				dto.setNum(rs.getInt("num"));
-				dto.setName(rs.getString("name"));
-				dto.setBlood(rs.getString("blood"));
-				dto.setPhone(rs.getString("phone"));
-				dto.setWriteday(rs.getTimestamp("writeday"));
-				//list 에 추가
-				list.add(dto);
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}finally {
-			db.dbClose(rs, pstmt, conn);	
-		}
-		return list;
-	}
-	
 	//insert
 	public void insertStudent(StudentDto dto) 
 	{

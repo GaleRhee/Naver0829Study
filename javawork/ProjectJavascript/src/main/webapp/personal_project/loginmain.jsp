@@ -15,17 +15,22 @@
  </style>
 </head>
 <%
-	//Session 으로부터 저장된 아이디를 얻는다
-	String signinid=(String)session.getAttribute("signinid");//없을 경우 null
-	
+	//로그인 상태인지 session 값을 얻는다
+	String signinok=(String)session.getAttribute("signinok");
 %>
 
 <body>
-	<div class="input-group" style="width: 400px;margin: 30px 100px;">
-		<h4><%=signinid %> is Signed In</h4>
-		<button type="button" class="btn btn-danger"
-		style="width: 100px;margin-left: 20px;"
-		onclick="location.href='logoutaction.jsp'">Sign Out</button>
-	</div>
+<div style="margin: 50px;">
+	<%
+	if(signinok==null){%>
+		<jsp:include page="loginform.jsp"/>
+		<br><br>
+		<h3><b>Sign In to Write a Comment</b></h3>
+	<%}else{%>
+		<jsp:include page="logoutform.jsp"/>
+		
+	<%}
+	%>
+</div>
 </body>
 </html>

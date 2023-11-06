@@ -22,10 +22,10 @@
 
 <body>
 	<div class="input-group" style="width: 400px;margin: 30px 100px;">
-		<h4><%=signinid %> is Signed In</h4>
+		<h4><%=signinid %> 님이 로그인 중입니다</h4>
 		<button type="button" class="btn btn-danger"
 		style="width: 100px;margin-left: 20px;"
-		onclick="location.href='logoutaction.jsp'">Sign Out</button>
+		onclick="location.href='logoutaction.jsp'">로그 아웃</button>
 	</div>
 </body>
 </html>

@@ -35,8 +35,22 @@
 		box-shadow: -3px -3px 8px 0px rgb(255, 255, 255), 3px 3px 12px 0px rgba(0, 0, 0, 0.30);
 	 }
 	 
+	 .inputpart{
+	 	 box-shadow: -3px -3px 6px 0px #FFF inset, 5px 5px 10px 0px rgba(0, 0, 0, 0.20) inset;
+	 	
+	 }
+	 
 	 button.home{
 	 	margin-left: 16px;
+	 }
+	 
+	 .other{
+	 	margin-top: 24px;
+	 }
+	 
+	 .otherlogin{
+	 	border-radius: 5px;
+	 	box-shadow: -3px -3px 8px 0px rgb(255, 255, 255), 3px 3px 12px 0px rgba(0, 0, 0, 0.30);
 	 }
  </style>
 </head>
@@ -60,22 +74,25 @@
 	<div style="width: 340px;background-color: #e8e8e8;border-radius: 5px;" class="signininput">
 		<caption>
 			<h2 align="center">Sign In</h2><br>
-			<label><input type="checkbox" name="saveid" style="margin-bottom: 16px;color: gray;"
-			<%=bCheck?"checked":"" %>> Save Username</label>
+			<label><input type="checkbox" name="saveid" style="margin-bottom: 16px;"
+			<%=bCheck?"checked":"" %>><b style="color: gray;"> Save Username</b></label>
 		</caption>
 		<div>
 			<div width=150>
-				<input type="text" class="form-control" 
+				<input type="text" class="form-control inputpart" 
 				style="margin-bottom: 16px;" autofocus 
 				required placeholder="Username" name="signinid" value="<%=signinid %>">
 				
 			</div>
 		</div>
 		<div width=150>
-			<input type="password" class="form-control" 
+			<input type="password" class="form-control inputpart" 
 			required placeholder="Password" name="signinpass">
 		</div>
-		
+		<div align="center" class="other">
+			<img src="./Personal_project/images/Group 716.png" class="otherlogin" style="width: 80px;margin: 8px;">
+			<img src="./Personal_project/images/Group 717.png" class="otherlogin" style="width: 80px;margin: 8px;">
+		</div>
 		<div style="width: 300px;" align="center">
 		<br><br>
 			<button type="submit" class="btn signin" style="margin-left: 22px;">Sign In</button>

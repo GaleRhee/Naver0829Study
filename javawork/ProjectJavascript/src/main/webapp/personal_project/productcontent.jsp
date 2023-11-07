@@ -152,10 +152,6 @@
 	ReviewsDao rdao=new ReviewsDao();
 	List<ReviewsDto> rlist=rdao.getReviews(num);
 	
-	
-	//로그인 상태인지 session 값을 얻는다
-	String signinok=(String)session.getAttribute("signinok");
-
 %>
 <body>
 <header class="c9-Nav">
@@ -164,17 +160,6 @@
 			<img src="./Personal_project/MAIN-LOGO_2.png" class="nav_logo">
 			<div>
 				<button type="button" class="signin register">Sign In</button>
-				<div style="margin: 50px;">
-				<%
-				if(signinok==null){%>
-					<jsp:include page="loginform.jsp"/>
-					<br><br>
-					<h3><b>Sign In to Write a Comment</b></h3>
-				<%}else{%>
-					<jsp:include page="productcontent.jsp"/>
-				<%}
-				%>
-				</div>
 				<button type="button" class="signup register">Sign Up</button>
 			</div>
 		</div>
@@ -202,7 +187,7 @@
 				<div>
 					<h6 class="rcount" style="cursor: pointer;color: #202020;margin-left: 16px;">
 					Comment <%=rlist.size() %></h6>
-					<div class="rlist" style="margin-left: 20px">
+					<div class="rlist" style="margin-left: 20px; color: gray;">
 					<%
 						for(ReviewsDto rdto:rlist){%>
 							<b><%=rdto.getWriter() %></b>
@@ -211,7 +196,7 @@
 							<span class="day"><%=sdf.format(rdto.getWriteday()) %></span>
 							<!-- 삭제 아이콘 -->
 							&nbsp;&nbsp;
-							<i class="bi bi-trash reviewdel" style="cursor: pointer;"
+							<i class="bi bi-trash reviewdel" style="cursor: pointer;float: right;margin-right: 32px"
 							idx="<%=rdto.getIdx() %>" num="<%=num %>"></i>
 							<br>
 						<%}

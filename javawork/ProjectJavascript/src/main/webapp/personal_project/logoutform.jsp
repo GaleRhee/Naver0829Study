@@ -12,6 +12,15 @@
      body * {
          font-family: 'Jua';
      }
+     
+     .btnlogout{
+     	 width: 64px;
+		 border: none;
+		 border-radius: 0px 8px 8px 0px;
+		 color: #e8e8e8;
+		 background: #2f2f2f;
+ 		 box-shadow: -3px -3px 8px 0px rgb(255, 255, 255), 3px 3px 12px 0px rgba(0, 0, 0, 0.50);
+     }
  </style>
 </head>
 <%
@@ -23,7 +32,7 @@
 <body>
 	<div class="input-group" style="width: 400px;margin: 30px 100px;">
 		<h4><%=signinid %> 님이 로그인 중입니다</h4>
-		<button type="button" class="btn btn-danger"
+		<button type="button" class="btn btnlogout"
 		style="width: 100px;margin-left: 20px;"
 		onclick="location.href='logoutaction.jsp'">로그 아웃</button>
 	</div>

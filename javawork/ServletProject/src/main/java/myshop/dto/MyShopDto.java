@@ -54,6 +54,14 @@ public class MyShopDto {
 	public void setColor(String color) {
 		this.color = color;
 	}
+
+	public Timestamp getWriteday() {
+		return writeday;
+	}
+
+	public void setWriteday(Timestamp writeday) {
+		this.writeday = writeday;
+	}
 	
 	
 }

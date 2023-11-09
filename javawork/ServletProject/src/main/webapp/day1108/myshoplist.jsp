@@ -17,7 +17,7 @@
      
      .photo{
      	width: 200px;
-     	height: 250px;
+     	height: 300px;
      	padding: 10px;
      	border: 2px solid gray;
      	border-radius: 30px;

@@ -39,20 +39,11 @@ body * {
 </style>
 </head>
 <body>
-	<h3 class="alert alert-info">식사 사진</h3>
-	<c:forEach var="dto" items="${list}">
-		<div class="photo">
-			<figure>
-				<img src="../../photo/${dto.photo}">
-				<figcaption>
-					<hr>
-					<h4>이름 : ${dto.name}</h4>
-					<h5>주소 : ${dto.addr}</h5>
-				</figcaption>
-			</figure>
-		</div>
+	<h2>이름 : ${name}</h2>
+	<h3>주소 : ${addr}</h3>
+	<hr>
+	<c:forEach var="f" items="${food}">
+		<img src="../../photo/${f}" width="200" height="200" border="3">
 	</c:forEach>
-
-
 </body>
 </html>

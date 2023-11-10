@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 //@RequestMapping("/shop")  //나중에 모든 경로가 shop 으로 시작할 경우 추가
@@ -58,6 +59,7 @@ public class ShopController {
 		return "list1";
 	}
 	
+	/* 내가 쓴 코드
 	@GetMapping("/food/morning/brunch")
 	public String brunch(Model model)
 	{
@@ -71,7 +73,23 @@ public class ShopController {
 		model.addAttribute("list",list);
 		return "list2";
 	}
+	*/
 	
+	@GetMapping("/food/morning/brunch")
+	public String brunch(Model model)
+	{
+		model.addAttribute("message","오늘의 브런치 메뉴들"); 
+		model.addAttribute("today",new Date());
+		List<String> list=new ArrayList<String>();
+		list.add("K-034.png");
+		list.add("K-035.png");
+		list.add("K-036.png");
+		
+		model.addAttribute("list",list);
+		return "list2";
+	}
+	
+	/*
 	@GetMapping("/food/photo/detail")
 	public String food(Model model)
 	{
@@ -83,6 +101,26 @@ public class ShopController {
 		model.addAttribute("list",list); 
 		
 		return "list3";
+	}*/
+	
+	
+	@GetMapping("/food/photo/detail")
+	public ModelAndView detail()
+	{
+		ModelAndView mview=new ModelAndView();
+		
+		List<String> list=new ArrayList<String>();
+		list.add("7.jpg");
+		list.add("8.jpg");
+		list.add("9.jpg");
+		
+		mview.addObject("food",list);
+		mview.addObject("name","Gale");
+		mview.addObject("addr","서울시 강남구");
+		
+		mview.setViewName("list3");
+		
+		return mview;
 	}
 	
 }

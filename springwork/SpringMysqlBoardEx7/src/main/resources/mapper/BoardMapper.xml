@@ -5,4 +5,10 @@
 	<select id="totalCountOfBoard" resultType="int">
 		select count(*) from simpleboard
 	</select>
+	<insert id="insertBoard" parameterType="BoardDto">
+		insert into simpleboard values (null,#{writer},#{subject},#{content},#{photo},0,now())
+	</insert>
+	<select id="selectAllBoard" resultType="BoardDto">
+		select * from simpleboard order by num desc
+	</select>
 </mapper>

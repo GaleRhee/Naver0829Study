@@ -94,7 +94,7 @@
    	height: 100px;
    	line-height: 100px;
    	text-align: center;
-   }
+   } 
    
 </style>
 </head>

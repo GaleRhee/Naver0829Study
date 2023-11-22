@@ -39,15 +39,16 @@
    
    div.main_container div.header{
    	/* position: absolute; */
-   	/* width: 100%; */
+   	width: 100%;
    	/* width: 700px; */
    	/* left: 50%;
    	margin-left: -350px; */
    	height: 100px;
-   	line-height: 100px;
+   	/* line-height: 100px; */
    	text-align: center;
-   	font-size: 28px;
+   	font-size: 13px;
    	font-weight: normal;
+   	padding-top: 20px;
    }
    
    div.main_container div.menu{
@@ -58,7 +59,7 @@
     top: 100px; 
    	left: 50%;
    	margin-left: -360px;  */
-   	/width: 100%; 
+   	width: 100%; 
    	/* width: 800px; */
    	text-align: center;
    	height: 100px;
@@ -112,9 +113,9 @@
 	<div class="home">
 		<tiles:insertAttribute name="home"/>
 	</div>
-	<div class="footer">
+	<%-- <div class="footer">
 		<tiles:insertAttribute name="footer"/>
-	</div>
+	</div> --%>
 </div>
 
 </body>

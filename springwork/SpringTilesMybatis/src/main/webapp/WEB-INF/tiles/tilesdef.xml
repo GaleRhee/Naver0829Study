@@ -10,7 +10,6 @@
 		<put-attribute name="info" value="/WEB-INF/layout/info.jsp"/>
 		<put-attribute name="footer" value="/WEB-INF/layout/footer.jsp"/>
 		<put-attribute name="home" value="/WEB-INF/layout/home.jsp"/>
-		<put-attribute name="test" value="/WEB-INF/test/layout2.jsp"/>
 	</definition>
 	
 	<!-- layout1 macro, name 반복적으로 사용 못한다 -->

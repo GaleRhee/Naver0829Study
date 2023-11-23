@@ -7,5 +7,5 @@ public class BoardFileDto {
 
 	private int idx;
 	private int num;
-	private String photoName;
+	private String photoname;
 }

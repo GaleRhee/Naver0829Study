@@ -14,11 +14,27 @@
    body * {
        font-family: 'Jua';
    }
+   
+   div.sm_info{
+   		background-color: #c4c4c4;
+   		height: 200px;
+   		width: 120px;
+   		border-radius: 10px;
+   		margin: 10px;
+   }
   
 </style>
 </head>
 <body>
-<h2>info</h2>
+<div class="sm_info">
+	<h5 style="padding-top: 15px;">SM 은 신인가</h5>
+	<br>
+	<h6>그는 신인가? <br>
+	Is he God? <br>
+	Eres Dio?</h6>
+	
+	<h6>아무래도 아닌 듯...</h6>
+</div>
 
 </body>
 </html>

@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import mini.dao.MemberDao;
 import mini.dto.BoardDto;
 import mini.dto.BoardFileDto;
 import mini.service.BoardFileService;
@@ -30,17 +32,20 @@ public class BoardController {
 	
 	@Autowired
 	private BoardFileService boardFileService;
+	
+	@Autowired
+	private MemberDao memberDao;
 
 	@GetMapping("/board/list")
 	public String list(Model model,@RequestParam(defaultValue = "1") int currentPage)
 	{
 		//페이징처리
 		//페이징에 처리에 필요한 변수들
-		int perPage=3; //한페이지당 보여지는 게시글의 갯수
+		int perPage=5; //한페이지당 보여지는 게시글의 갯수
 		int totalCount=0; //총 개시글의 개수
 		int totalPage;//총페이지수
 		int startNum;//각페이지당 보여지는 글의 시작번호
-		int perBlock=3; //한블럭당 보여지는 페이지의 개수
+		int perBlock=5; //한블럭당 보여지는 페이지의 개수
 		int startPage; //각블럭당 보여지는 페이지의 시작번호
 		int endPage;
 
@@ -69,6 +74,14 @@ public class BoardController {
 		  
 		//해당페이지에 보여줄 게시판 목록
 		List<BoardDto> list=boardService.getList(startNum, perPage);
+		
+		//각 dto 에 첨부된 사진의 개수 저장
+		for(BoardDto dto:list)
+		{
+			int pcount=boardFileService.getPhotoByNum(dto.getNum()).size();
+			System.out.println(dto.getNum()+":"+pcount);
+			dto.setPhotocount(pcount);
+		}
 		  
 		//request 에 담을 값들
 		model.addAttribute("list",list);
@@ -171,6 +184,116 @@ public class BoardController {
 		//새 글인 경우는 1 페이지로, 답글일 경우는 보던 페이지로 이동한다
 		return "redirect:list?currentPage="+currentPage;
 	}
+	
+	@GetMapping("/board/content")
+	public String getContent(
+			Model model,
+			@RequestParam int num,
+			@RequestParam(defaultValue = "1") int currentPage)
+	{
+		//조회수 증가
+		boardService.updateReadCount(num);
+		
+		//num 에 해당하는 dto 얻기
+		BoardDto dto=boardService.getData(num);
+		
+		//프로필 사진 가져오기
+		String profile_photo=memberDao.getData(dto.getMyid()).getPhoto();
+		
+		//사진과 사진 개수
+		List<String> photos=boardFileService.getPhotoByNum(num);
+		dto.setPhotocount(photos.size()); //사진 개수
+		dto.setPhotoNames(photos); //사진 파일명들
+		
+		//model 에 저장
+		model.addAttribute("profile_photo", profile_photo);
+		model.addAttribute("dto", dto);
+		model.addAttribute("currentPage", currentPage);
+		
+		return "board/content";
+	}
+	
+	@GetMapping("/board/delete")
+	public String deleteBoard(
+			@RequestParam int num,@RequestParam int currentPage)
+	{
+		//삭제
+		boardService.deleteBoard(num);
+		
+		return "redirect:./list?currentPage="+currentPage;
+	}
+	
+	@GetMapping("/board/updateform")
+	public String updateForm(Model model,@RequestParam int num,@RequestParam int currentPage)
+	{
+		BoardDto dto=boardService.getData(num);
+		List<BoardFileDto> flist=boardFileService.getFileDataByNum(num);
+		
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("dto", dto);
+		model.addAttribute("flist", flist);
+		
+		return "board/updateform";
+	}
+	
+	@GetMapping("/board/delphoto")
+	@ResponseBody public void deletePhoto(@RequestParam int idx)
+	{
+		//해당 사진 삭제
+		boardFileService.deletePhoto(idx);
+	}
+	
+	//게시판 수정
+	@PostMapping("/board/updateboard")
+	public String updateBoard(
+			@ModelAttribute BoardDto dto,
+			@RequestParam int currentPage,
+			@RequestParam List<MultipartFile> upload,
+			HttpServletRequest request,
+			HttpSession session
+			)
+	{
+		//파일 업로드할 경로
+		String path=request.getSession().getServletContext().getRealPath("/resources/upload");
+		
+		//수정
+		boardService.updateBoard(dto);
+		
+		//사진들 업로드
+		//사진 업로드를 안 했을 경우 리스트의 첫 데이터의 파일명이 빈 문자열이 된다
+		//즉 업로드 했을 경우에만 db 에 저장을 한다
+		if(!upload.get(0).getOriginalFilename().equals("")) {
+			for(MultipartFile multi:upload)
+			{
+				//랜덤 파일명 생성
+				String fileName=UUID.randomUUID().toString();
+				
+				//업로드
+				try {
+					multi.transferTo(new File(path+"/"+fileName));
+					
+					//파일은 따로 db 에 insert 한다
+					BoardFileDto fdto=new BoardFileDto();
+					fdto.setNum(dto.getNum());
+					fdto.setPhotoname(fileName);
+					
+					boardFileService.insertPhoto(fdto);
+					
+				} catch (IllegalStateException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		
+			}
+		}
+			
+		//수정 후 내용 보기로 이동한다
+		return "redirect:./content?currentPage="+currentPage+"&num="+dto.getNum();
+	}
+		
 }
 
 

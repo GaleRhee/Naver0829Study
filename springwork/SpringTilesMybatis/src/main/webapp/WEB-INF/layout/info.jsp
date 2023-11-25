@@ -31,7 +31,10 @@
 	<br>
 	<h6>그는 신인가? <br>
 	Is he God? <br>
-	Eres Dio?</h6>
+	Eres Dio?<br>
+	Nope!<br>
+	아니라네~
+	</h6>
 	
 	<h6>아무래도 아닌 듯...</h6>
 </div>

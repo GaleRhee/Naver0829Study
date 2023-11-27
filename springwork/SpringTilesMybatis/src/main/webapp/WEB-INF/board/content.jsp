@@ -20,7 +20,145 @@
    		color: gray;
    }
    
+   span.ansday{
+   		font-size: 12px;
+   		color: gray;
+   }
+   
+   .ansdel{
+   		font-size: 16px;
+   		color: gray;
+   		float: right;
+   		cursor: pointer;
+   }
+   
 </style>
+<script type="text/javascript">
+$(function(){
+	
+	list();//처음 로딩 시 댓글 출력
+	
+	//댓글 카메라 클릭 시 파일 업로드 버튼 실행
+	$(".uploadcamera").click(function(){
+		$("#upload").trigger("click");
+	});
+	
+	//사진 업로드
+	$("#upload").change(function(){
+		
+		let formData=new FormData();
+		formData.append("upload",$("#upload")[0].files[0]);
+		$.ajax({
+			type:"post",
+			dataType:"json",
+			url:"../answer/upload", 
+			data: formData,
+			processData:false,
+			contentType:false,
+			success:function(res){
+				//업로드 후에 반환 받은 파일명을 댓글의 이미지에 넣어준다
+				$("img.answerphoto").attr("src","../res/upload/"+res.photoname);
+				
+			}
+		});
+	});
+	
+	//댓글 추가 이벤트
+	$("#btnansweradd").click(function(){
+		let msg=$("#answermsg").val();
+		let num=${dto.num};
+		if(msg.length==0){
+			alert("댓글 내용을 입력해주세요");
+			return;
+		}
+		//alert(msg+":"+num);
+		$.ajax({
+			type:"post",
+			dataType:"text",
+			url:"../answer/insert", 
+			data: {"num":num,"msg":msg},
+			success:function(res){
+				//db insert 성공 후 댓글 목록 다시 출력
+				list();
+				//입력창 초기화
+				$("#answermsg").val("");
+				
+				//댓글 사진 초기화
+				$("img.answerphoto").attr("src","../res/photo/noimage.png");
+			}
+		});
+	});
+	
+	//댓글 삭제
+	$(document).on("click",".ansdel",function(){
+		let ansidx=$(this).attr("ansidx");
+		$.ajax({
+			type:"get",
+			dataType:"text",
+			url:"../answer/delete", 
+			data: {"ansidx":ansidx},
+			success:function(res){
+				list();//삭제 후 목록 다시 출력
+			}
+		});
+	});
+	
+});//close function
+
+function list()
+{
+	let num=${dto.num};
+	
+	let loginok='${sessionScope.loginok}';
+	let loginid='${sessionScope.myid}';
+	//댓글 출력하는 함수
+	$.ajax({
+		type:"get",
+		dataType:"json",
+		url:"../answer/list", 
+		data: {"num":num},
+		success:function(res){
+			//alert(res.length);
+			$("#answercount").text("댓글 "+res.length);//댓글 개수 출력
+			
+			
+			let s="";
+			$.each(res,function(idx,item){
+				s+=
+					`
+					\${item.ansname} (\${item.ansid})
+					<span class="ansday">\${item.writeday}</span><br>
+					`;
+				if(item.ansphoto!=null){
+					s+=
+						`
+						<img src="../res/upload/\${item.ansphoto}" width=60 height=60 hspace=20
+						style="border-radius: 6px;border: 1px solid gray;">
+						`;
+				}
+				
+				s+=
+					`
+					<span style="margin-left: 8px;">\${item.ansmsg}</span>
+					&nbsp;
+					
+					`;
+				
+				if(loginok!='' && item.ansid==loginid){
+					s+=
+						`<i class="bi bi-trash ansdel" ansidx="\${item.ansidx}"></i>`;
+				}
+					
+					
+				s+="<br><br>";
+			});
+			
+			$("div.answerlist").html(s);
+		}
+	});
+}
+
+</script>
 </head>
 <body>
 <div>
@@ -48,8 +186,25 @@
 		</c:if>
 	</div>
 	<div>
-		<!-- 새 글: 파라미터를 아무것도 넘기지 않으므로, default로 처리 -->
-	
+		<div id="answercount">댓글 0</div>
+	    <div class="answerlist" style="margin-left: 10px;">
+	    	댓글 목록이 나올 곳
+	    </div>
+	    <c:if test="${sessionScope.loginok!=null}">
+	    	<div class="answerform input-group" style="width: 700px;">
+	    		<input type="file" id="upload" style="display: none;">
+	    		<i class="bi bi-camera uploadcamera" style="cursor: pointer; font-size: 26px;margin-right: 16px;margin-top: 8px;color: gray;"></i>
+	    		<img src="" class="answerphoto" width="50" height="50" style="border: 0.5px solid gray;border-radius: 8px 0px 0px 8px;" 
+	    		 onerror="this.src='../res/photo/noimage.png'">
+	    		
+	    		<input type="text" class="form-control" style="width: 300px;" placeholder="댓글 내용"
+	    		 id="answermsg">
+	    		<button type="button" class="btn btn-outline-success btn-sm" id="btnansweradd">저장</button>
+	    	</div>
+	    </c:if>
+	    
+	    <!-- 새 글: 파라미터를 아무것도 넘기지 않으므로, default로 처리 -->
+	    <br>
 		<button type="button" class="btn btn-outline-secondary btn-sm" style="width: 80px;"
 		 onclick="location.href='./form'">글 쓰기</button>
 		 
@@ -68,6 +223,7 @@
 		 	 onclick="location.href='./delete?num=${dto.num}&currentPage=${currentPage}'">삭제</button>
 		</c:if>
 	</div>
+	<div id="answerend"></div>
 </div>
 </body>
 </html>

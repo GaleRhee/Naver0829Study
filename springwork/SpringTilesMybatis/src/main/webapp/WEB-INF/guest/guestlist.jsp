@@ -37,6 +37,42 @@
 		if(nara==null) nara='en';
 		$(".selnara").val(nara);
 	});
+	
+	<!-- 한국말 보이스 -->
+	$(".voicekr").click(function(){
+		let m=$(this).prev().text();
+		
+		$.ajax({
+			type:"get",
+			dataType:"text",
+			url:"./voice", 
+			data: {"message":m,"lang":"ko"},
+			success:function(res){
+				//오디오 생성
+				let audio=new Audio("../res/voice/"+res);
+				audio.play();
+			}
+		});
+	});
+	
+	
+	$(".voicetrans").click(function(){
+		let m=$(this).prev().text();
+		let lang=$(".selnara").val();
+		
+		$.ajax({
+			type:"get",
+			dataType:"text",
+			url:"./voice", 
+			data: {"message":m,"lang":lang},
+			success:function(res){
+				//오디오 생성
+				let audio=new Audio("../res/voice/"+res);
+				audio.play();
+			}
+		});
+	});
+
 </script>
 </head>
 <body>
@@ -118,46 +154,13 @@
 			 
 			<pre>${dto.guest_content}</pre>
 			<i class="bi bi-megaphone voicekr" style="cursor: pointer;font-size: 1.5em;"></i>
-			<!-- 한국말 보이스 -->
-			<script type="text/javascript">
-				$(".voicekr").click(function(){
-					let m=$(this).prev().text();
-					
-					$.ajax({
-						type:"get",
-						dataType:"text",
-						url:"./voice", 
-						data: {"message":m,"lang":"ko"},
-						success:function(res){
-							//오디오 생성
-							let audio=new Audio("../res/voice/"+res);
-							audio.play();
-						}
-					});
-				});
-			</script>
+			
+			
 			<hr>
 			<h6 style="color: red;">Papago 번역 서비스</h6>
 			<pre>${dto.trans_lang}</pre>
 			<i class="bi bi-megaphone voicetrans" style="cursor: pointer;font-size: 1.5em;"></i>
-			<script type="text/javascript">
-				$(".voicetrans").click(function(){
-					let m=$(this).prev().text();
-					let lang=$(".selnara").val();
-					
-					$.ajax({
-						type:"get",
-						dataType:"text",
-						url:"./voice", 
-						data: {"message":m,"lang":lang},
-						success:function(res){
-							//오디오 생성
-							let audio=new Audio("../res/voice/"+res);
-							audio.play();
-						}
-					});
-				});
-			</script>
+			
 		</div>
 	</c:forEach>
 </div>

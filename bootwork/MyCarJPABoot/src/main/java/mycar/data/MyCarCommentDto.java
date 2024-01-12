@@ -3,6 +3,8 @@ package mycar.data;
 import java.sql.Timestamp;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -39,6 +41,7 @@ public class MyCarCommentDto {
 	
 	@ManyToOne //서브 테이블에는 ManyToOne : 하나의 등록글에 여러 개의 댓글을 달 수 있다
 	@JoinColumn(name="num")
+	@OnDelete(action=OnDeleteAction.CASCADE) //부모 데이터를 지우면 댓글도 삭제 된다 + yml 잠시 Create 로 바꿔서 실행하고 update 로 다시 바꿔준다
 	private MyCarDto mycar; //MyCarDto 를 직접 선언을 해둬야 한다, join table 선언
 	
 	//@Column(length=30) 기본 컬럼명은 comment, length 는 255 가 된다 (생략 시)

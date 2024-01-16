@@ -5,7 +5,6 @@ import ThreeApp from './ThreeApp';
 import FourApp from './FourApp';
 import FiveApp from './FiveApp';
 import SixApp from './SixApp';
-import SevenApp from './SevenApp';
 import './MyStyle.css';
 
 
@@ -45,10 +44,6 @@ function MainApp(props) {
                 <input type='radio' name='myapp'
                     defaultValue={6} onClick={onChangeApp} /> SixApp
             </label>
-            <label style={{ marginLeft: '20px' }}>
-                <input type='radio' name='myapp'
-                    defaultValue={7} onClick={onChangeApp} /> SevenApp
-            </label>
 
             <hr />
             {
@@ -56,8 +51,7 @@ function MainApp(props) {
                     index === 2 ? <TwoApp /> :
                         index === 3 ? <ThreeApp /> :
                             index === 4 ? <FourApp /> :
-                                index === 5 ? <FiveApp /> :
-                                    index === 6 ? <SixApp /> : <SevenApp />
+                                index === 5 ? <FiveApp /> : <SixApp />
             }
         </div>
     );

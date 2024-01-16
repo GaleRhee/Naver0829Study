@@ -5,6 +5,7 @@ import ThreeApp from './ThreeApp';
 import FourApp from './FourApp';
 import FiveApp from './FiveApp';
 import SixApp from './SixApp';
+import './MyStyle.css';
 
 
 //radio 버튼을 추가해서 선택 시 해당 앱이 나오도록 이벤트 추가

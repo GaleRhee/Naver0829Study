@@ -18,7 +18,7 @@ function MainApp(props) {
 
     return (
         <div style={{ margin: '30px' }}>
-            <h3 className='alert alert-success'>2024-01-16 리액트 수업</h3>
+            <h3 className='alert alert-success'>2024-01-17 리액트 수업 - Axios</h3>
             <label>
                 <input type='radio' name='myapp'
                     defaultValue={1} defaultChecked onClick={onChangeApp} /> OneApp

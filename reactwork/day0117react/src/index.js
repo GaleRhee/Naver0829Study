@@ -4,11 +4,13 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import MainApp from './components/MainApp';
+import OneApp from './components/OneApp';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <MainApp />
+    {/* <OneApp /> */}
   </React.StrictMode>
 );
 

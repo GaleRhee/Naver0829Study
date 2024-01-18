@@ -17,8 +17,8 @@ const FourGuestRowItem = ({ item, onDelete }) => {
     return (
         <div style={{
             border: '2px groove gray', width: '400px',
-            height: 'auto', padding: '10px', margin: '10px',
-            borderRadius: '30px'
+            height: 'auto', padding: '20px', margin: '20px',
+            borderRadius: '15px'
         }}>
             <span><b>{item.nickname}</b></span>
             <DeleteForeverOutlined

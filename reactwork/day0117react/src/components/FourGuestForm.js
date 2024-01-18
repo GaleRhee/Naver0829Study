@@ -71,7 +71,7 @@ const FourGuestForm = ({ onSave }) => {
                 onChange={(e) => {
                     contentRef.current.value = e.target.value;
                 }}
-                ref={contentRef}
+                ref={contentRef} style={{ marginTop: '10px' }}
                 placeholder='방명록 내용 입력'></textarea>
         </div>
     );

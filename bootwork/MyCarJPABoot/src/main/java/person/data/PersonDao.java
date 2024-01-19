@@ -29,4 +29,18 @@ public class PersonDao {
 	{
 		personRepository.deleteById(pnum);
 	}
+	
+	//상세 보기
+	public PersonDto getSelectData(int pnum)
+	{
+		return personRepository.getReferenceById(pnum);
+	}
+	
+	//수정
+	public void updatePerson(PersonDto dto)
+	{
+		//dto 에 pnum 이 포함 되어 있어야 수정이 됨
+		//없을 경우 추가가 됨
+		personRepository.save(dto);
+	}
 }

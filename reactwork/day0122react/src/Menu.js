@@ -24,6 +24,9 @@ const Menu = () => {
                 <li>
                     <NavLink to={"/sweet"}>SweetAlert</NavLink>
                 </li>
+                <li>
+                    <NavLink to={"/query"}>QueryString</NavLink>
+                </li>
             </ul>
         </div>
     );

@@ -12,6 +12,7 @@ const Home = () => {
                 3. useReducer<br />
                 4. useContext<br />
                 5. SweetAlert<br />
+                6. QueryString<br />
             </h4>
         </div>
     );

@@ -5,10 +5,11 @@ import Home from './components/Home';
 import CallBackApp from './components/CallBackApp';
 import MemoApp from './components/MemoApp';
 import ReducerApp from './components/ReducerApp';
-import ContextApp from './components/ContextApp';
 import SweetApp from './components/SweetApp';
 import errimg from './image/s1.JPG';
 import './components/MyStyle.css';
+import ContextApp from './context/ContextApp';
+import QueryString from './components/QueryString';
 
 const RouterMain = () => {
     return (
@@ -22,6 +23,7 @@ const RouterMain = () => {
                 <Route path='/reducer' element={<ReducerApp />} />
                 <Route path='/context' element={<ContextApp />} />
                 <Route path='/sweet' element={<SweetApp />} />
+                <Route path='/query' element={<QueryString />} />
 
                 <Route path='*' element={
                     <div>

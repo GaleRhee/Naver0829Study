@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import img1 from '../image/01.png';
 import img2 from '../image/02.png';
 import img3 from '../image/03.png';
@@ -8,6 +8,8 @@ import { Button } from '@mui/material';
 import Swal from 'sweetalert2';
 
 const SweetApp = () => {
+    const [sangpum, setSangpum] = useState('체크 자켓');
+
     return (
         <div>
             <h3 className='alert alert-danger'>SweetAlert 사용법</h3>
@@ -51,6 +53,61 @@ const SweetApp = () => {
                         cancelButtonText: "삭제 취소!!"
                     })
                 }}>사진 넣기</button>
+            <br />
+            <button type='button' className='btn btn-info btn-sm'
+                onClick={() => {
+                    Swal.fire({
+                        title: "Input Your Email",
+                        input: "email",
+                        inputLabel: "Your Eamil Address",
+                        inputPlaceholder: "Enter Your Email Address"
+                    }).then(result => {
+                        Swal.fire(`당신의 이메일 주소는 [${result.value}]`);
+                    })
+                }}>이메일</button>
+            <br />
+            <button type='button' className='btn btn-success'
+                onClick={() => {
+                    Swal.fire({
+                        icon: "info",
+                        // warning, info, error, question
+                        title: '상품 삭제',
+                        text: `${sangpum} 상품을 삭제하시겠습니까?`,
+                        showCancelButton: true,
+                        confirmButtonText: "삭제",
+                        cancelButtonText: "취소"
+                    }).then(result => {
+                        if (result.isConfirmed) {
+                            Swal.fire(`${sangpum} 상품을 삭제했습니다`);
+                        } else {
+                            Swal.fire(`${sangpum} 상품 삭제를 취소했습니다`);
+                        }
+                    })
+                }}>
+                상품 삭제
+            </button>
+            <br />
+            <button type='button' className='btn btn-warning'
+                onClick={() => {
+                    let arr = [
+                        { photo: img1, msg: "영숙" },
+                        { photo: img2, msg: "성철" },
+                        { photo: img3, msg: "영자" },
+                        { photo: img4, msg: "영철" },
+                        { photo: img5, msg: "순자" }
+                    ];
+                    let s = "";
+                    for (let m of arr) {
+                        s +=
+                            `<img alt='' src=${m.photo} width=40/><b>${m.msg}</b><br/>`;
+                    }
+
+                    Swal.fire({
+                        icon: "warning",
+                        title: "좋아요 누른 사람",
+                        html: s
+                    })
+                }}>배열 출력</button>
         </div>
     );
 };
